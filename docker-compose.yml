@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  # Hotel Management API
+  hotel-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hotel-management-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Server=${DB_SERVER},${DB_PORT};Database=${DB_NAME};User Id=${DB_USERNAME};Password=${DB_PASSWORD};TrustServerCertificate=true;
+      - Jwt__Key=${JWT_KEY}
+      - Jwt__Issuer=${JWT_ISSUER}
+      - Jwt__Audience=${JWT_AUDIENCE}
+      - Email__SmtpHost=${SMTP_HOST}
+      - Email__SmtpPort=${SMTP_PORT}
+      - Email__SmtpUsername=${SMTP_USERNAME}
+      - Email__SmtpPassword=${SMTP_PASSWORD}
+      - Email__UseSsl=${SMTP_USE_SSL}
+      - Email__FromEmail=${EMAIL_FROM}
+      - Email__FromName=${EMAIL_FROM_NAME}
+      - Email__AdminEmail=${EMAIL_ADMIN}
+      - Email__HotelName=${HOTEL_NAME}
+      - Email__HotelAddress=${HOTEL_ADDRESS}
+      - Email__HotelPhone=${HOTEL_PHONE}
+    ports:
+      - "8080:80"
+    volumes:
+      - ./wwwroot/images:/app/wwwroot/images
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
