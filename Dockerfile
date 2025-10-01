@@ -1,8 +1,7 @@
 # Use the official .NET 9.0 runtime as base image
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+EXPOSE 5000
 
 # Use the official .NET 9.0 SDK for building
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
@@ -40,10 +39,10 @@ RUN mkdir -p /app/wwwroot/images/rooms
 
 # Set environment variables
 ENV ASPNETCORE_ENVIRONMENT=Production
-ENV ASPNETCORE_URLS=http://+:80
+ENV ASPNETCORE_URLS=http://+:5000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost/health || exit 1
+  CMD curl -f http://localhost:5000/health || exit 1
 
 ENTRYPOINT ["dotnet", "BookingServiceApi.dll"]
