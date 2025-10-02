@@ -7,6 +7,7 @@ using BookingServiceApi.Extensions;
 namespace BookManagementSystem.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class GuestController : ControllerBase
     {

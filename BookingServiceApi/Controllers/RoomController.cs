@@ -7,6 +7,7 @@ using BookingServiceApi.Extensions;
 namespace BookManagementSystem.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class RoomController : ControllerBase
     {
@@ -18,6 +19,7 @@ namespace BookManagementSystem.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllRooms()
         {
             try

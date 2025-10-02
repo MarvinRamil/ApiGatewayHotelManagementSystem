@@ -98,7 +98,7 @@ namespace BookManagementSystem.Controllers
         }
 
         [HttpGet("date-range")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetBookingsByDateRange([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
         {
             try
@@ -113,7 +113,7 @@ namespace BookManagementSystem.Controllers
         }
 
         [HttpGet("upcoming")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetUpcomingBookings()
         {
             try
@@ -128,7 +128,7 @@ namespace BookManagementSystem.Controllers
         }
 
         [HttpGet("active")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetActiveBookings()
         {
             try
@@ -143,7 +143,7 @@ namespace BookManagementSystem.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> CreateBooking([FromBody] BookingCreateDto bookingCreateDto)
         {
             try
@@ -167,7 +167,7 @@ namespace BookManagementSystem.Controllers
         }
 
         [HttpPut("{id}")]
-        //[Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> UpdateBooking(int id, [FromBody] BookingCreateDto bookingUpdateDto)
         {
             try
@@ -191,7 +191,7 @@ namespace BookManagementSystem.Controllers
         }
 
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> DeleteBooking(int id)
         {
             try
@@ -214,7 +214,7 @@ namespace BookManagementSystem.Controllers
         }
 
         [HttpPatch("{id}/status")]
-        //[Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> UpdateBookingStatus(int id, [FromBody] BookingStatus status)
         {
             try
@@ -233,7 +233,7 @@ namespace BookManagementSystem.Controllers
         }
 
         [HttpPatch("{id}/check-in")]
-        //[Authorize(Roles = "Admin,Manager,Receptionist")]
+        [Authorize(Roles = "Admin,Manager,Receptionist")]
         public async Task<IActionResult> CheckInBooking(int id)
         {
             try
@@ -252,7 +252,7 @@ namespace BookManagementSystem.Controllers
         }
 
         [HttpPatch("{id}/check-out")]
-        //[Authorize(Roles = "Admin,Manager,Receptionist")]
+        [Authorize(Roles = "Admin,Manager,Receptionist")]
         public async Task<IActionResult> CheckOutBooking(int id)
         {
             try
@@ -271,7 +271,7 @@ namespace BookManagementSystem.Controllers
         }
 
         [HttpPatch("{id}/cancel")]
-        //[Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> CancelBooking(int id)
         {
             try
@@ -290,7 +290,7 @@ namespace BookManagementSystem.Controllers
         }
 
         [HttpPost("search")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> SearchBookings([FromBody] BookingSearchDto searchDto)
         {
             try
@@ -305,7 +305,7 @@ namespace BookManagementSystem.Controllers
         }
 
         [HttpGet("booking-number/{bookingNumber}")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetBookingsByBookingNumber(string bookingNumber)
         {
             try

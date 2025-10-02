@@ -21,6 +21,7 @@ namespace BookingServiceApi.Controllers
         /// Test email with simple message
         /// </summary>
         [HttpPost("test")]
+        [Authorize]
         public async Task<IActionResult> TestEmail([FromBody] TestEmailRequest request)
         {
             if (!ModelState.IsValid)
