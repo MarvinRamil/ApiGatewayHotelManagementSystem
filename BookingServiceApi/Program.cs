@@ -11,26 +11,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddInfrastructureClass(builder.Configuration);
 
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy("AllowAll", policy =>
-//    {
-//        policy
-//            .AllowAnyOrigin()   // Allow all origins
-//            .AllowAnyMethod()   // Allow all HTTP methods
-//            .AllowAnyHeader();  // Allow all headers
-//    });
-//});
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowCredentials", builder =>
+    options.AddPolicy("AllowAll", policy =>
     {
-        builder.WithOrigins("http://localhost:5174", "https://localhost:5174")
-               .AllowCredentials() // This is crucial!
-               .AllowAnyMethod()
-               .AllowAnyHeader();
+        policy
+            .AllowAnyOrigin()   // Allow all origins
+            .AllowAnyMethod()   // Allow all HTTP methods
+            .AllowAnyHeader();  // Allow all headers
     });
 });
+
 
 var app = builder.Build();
 
@@ -44,7 +35,7 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 
-app.UseCors("AllowCredentials");
+app.UseCors("AllowAll");
 
 // Enable static file serving for uploaded images
 app.UseStaticFiles();
