@@ -143,7 +143,7 @@ namespace BookManagementSystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Manager")]
+        //[Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> CreateBooking([FromBody] BookingCreateDto bookingCreateDto)
         {
             try
