@@ -64,7 +64,7 @@ namespace BookManagementSystem.Services
                 }
 
                 var roles = await _userManager.GetRolesAsync(user);
-                var accessToken = _tokenService.GenerateAccessToken(roles.ToList(), user.UserName!);
+                var accessToken = _tokenService.GenerateAccessToken(roles.ToList(), user.UserName!,user.Email!);
                 
                 // Generate refresh token using Identity's built-in functionality
                 var refreshToken = await _userManager.GenerateUserTokenAsync(user, TokenOptions.DefaultProvider, "RefreshToken");
@@ -116,7 +116,7 @@ namespace BookManagementSystem.Services
 
                 // Generate new tokens
                 var roles = await _userManager.GetRolesAsync(user);
-                var newAccessToken = _tokenService.GenerateAccessToken(roles.ToList(), user.UserName!);
+                var newAccessToken = _tokenService.GenerateAccessToken(roles.ToList(), user.UserName!,user.Email!);
                 var newRefreshToken = await _userManager.GenerateUserTokenAsync(user, TokenOptions.DefaultProvider, "RefreshToken");
 
                 return (true, newAccessToken, newRefreshToken, null);

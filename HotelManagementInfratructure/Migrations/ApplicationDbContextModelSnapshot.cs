@@ -394,8 +394,8 @@ namespace HotelManagementInfratructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("EmployeeId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("EmployeeId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -447,15 +447,15 @@ namespace HotelManagementInfratructure.Migrations
                         {
                             Id = "f2a4e4f5-9b4e-4f7d-9c15-3c9a8f52a2bb",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "981d010a-c3bc-4eb5-9d56-9f82bbc5e60a",
+                            ConcurrencyStamp = "53658ebf-2fb3-4a0b-8adc-1e1e8f748b9e",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAXpciD7fo32Z+G6l+JrrjcU3o1CRPdIgB1FCKFgdv2C3l0M1vGFOtR/DmCUgAjF9g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJVwIaPFEFHi2IqOwjjitq1YFxgeCvesU40rJ8n++YNmw0JQmZuIQjTF5YNgctN6TQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4819cddd-44ba-4c90-a758-9c8f6e3c4ea2",
+                            SecurityStamp = "63ac96c6-8d39-48c7-83fe-a6bb42f96f0d",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });

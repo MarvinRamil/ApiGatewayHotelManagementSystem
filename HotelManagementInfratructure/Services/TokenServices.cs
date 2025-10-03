@@ -18,12 +18,12 @@ namespace BookManagementSystem.services
             _configuration = configuration;
         }
 
-        public string Authentication(List<string> roles, string username = null!)
+        public string Authentication(List<string> roles, string username = null!, string email = null!)
         {
-            return GenerateAccessToken(roles, username);
+            return GenerateAccessToken(roles, username, email);
         }
 
-        public string GenerateAccessToken(List<string> roles, string username = null!)
+        public string GenerateAccessToken(List<string> roles, string username = null!, string email = null!)
         {
             // Get secret from appsettings.json
             var secret = _configuration["Jwt:Key"];
@@ -43,6 +43,11 @@ namespace BookManagementSystem.services
             if (!string.IsNullOrEmpty(username))
             {
                 claims.Add(new Claim(ClaimTypes.Name, username));
+            }
+
+            if (!string.IsNullOrEmpty(email))
+            {
+                claims.Add(new Claim(ClaimTypes.Email, email));
             }
 
             if (roles != null && roles.Any())
@@ -79,7 +84,7 @@ namespace BookManagementSystem.services
             return !string.IsNullOrEmpty(refreshToken) && refreshToken.Length >= 32;
         }
 
-        public (string Username, List<string> Roles) GetUserFromToken(string token)
+        public (string Username, string Email, List<string> Roles) GetUserFromToken(string token)
         {
             try
             {
@@ -99,14 +104,15 @@ namespace BookManagementSystem.services
                 }, out SecurityToken validatedToken);
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                var username = jwtToken.Claims.First(x => x.Type == ClaimTypes.Name).Value;
+                var username = jwtToken.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value ?? string.Empty;
+                var email = jwtToken.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value ?? string.Empty;
                 var roles = jwtToken.Claims.Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value).ToList();
 
-                return (username, roles);
+                return (username, email, roles);
             }
             catch
             {
-                return (string.Empty, new List<string>());
+                return (string.Empty, string.Empty, new List<string>());
             }
         }
     }
