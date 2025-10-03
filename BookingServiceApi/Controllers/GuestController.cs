@@ -128,7 +128,6 @@ namespace BookManagementSystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> CreateGuest([FromBody] GuestCreateDto guestCreateDto)
         {
             try
