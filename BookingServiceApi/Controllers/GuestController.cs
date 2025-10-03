@@ -7,7 +7,7 @@ using BookingServiceApi.Extensions;
 namespace BookManagementSystem.Controllers
 {
     [ApiController]
-    [Authorize]
+    
     [Route("api/[controller]")]
     public class GuestController : ControllerBase
     {
@@ -19,6 +19,7 @@ namespace BookManagementSystem.Controllers
         }
 
         [HttpGet]
+        
         public async Task<IActionResult> GetAllGuests()
         {
             try
@@ -51,6 +52,7 @@ namespace BookManagementSystem.Controllers
         }
 
         [HttpGet("email/{email}")]
+        
         public async Task<IActionResult> GetGuestByEmail(string email)
         {
             try
@@ -69,6 +71,7 @@ namespace BookManagementSystem.Controllers
         }
 
         [HttpGet("active")]
+       
         public async Task<IActionResult> GetActiveGuests()
         {
             try
