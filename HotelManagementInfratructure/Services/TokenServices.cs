@@ -42,7 +42,7 @@ namespace BookManagementSystem.services
             var claims = new List<Claim>();
             if (!string.IsNullOrEmpty(username))
             {
-                claims.Add(new Claim(ClaimTypes.Name, username));
+                claims.Add(new Claim(ClaimTypes.Name, email));
             }
 
             if (!string.IsNullOrEmpty(email))
