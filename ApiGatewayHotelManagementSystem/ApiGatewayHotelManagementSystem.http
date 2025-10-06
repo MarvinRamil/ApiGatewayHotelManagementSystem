@@ -1,6 +1,0 @@
-@ApiGatewayHotelManagementSystem_HostAddress = http://localhost:5101
-
-GET {{ApiGatewayHotelManagementSystem_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

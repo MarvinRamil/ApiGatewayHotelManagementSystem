@@ -1,77 +1,152 @@
 # Hotel Management System
 
-A comprehensive hotel management system built with .NET 9.0, featuring booking management, room management, guest management, and dashboard analytics.
+A comprehensive hotel management system built with .NET 8, featuring API Gateway architecture, JWT authentication, and full booking management capabilities.
 
-## Features
+## 🏨 Overview
 
-- **Authentication & Authorization**: JWT-based authentication with refresh tokens
-- **Booking Management**: Complete booking lifecycle with OTP verification
-- **Room Management**: Room status tracking, image uploads, maintenance scheduling
-- **Guest Management**: Guest information and booking history
-- **Dashboard Analytics**: Real-time statistics, revenue tracking, and reporting
-- **Email Notifications**: Automated email notifications for bookings and confirmations
-- **Image Management**: Room image uploads with WebP conversion
+This system provides a complete solution for hotel operations including:
+- **Guest Management**: Registration, authentication, and profile management
+- **Room Management**: Room types, availability, pricing, and maintenance scheduling
+- **Booking System**: Complete booking lifecycle from reservation to checkout
+- **Staff Management**: Role-based access control for hotel staff
+- **Email Notifications**: Automated email system for booking confirmations and updates
+- **Dashboard Analytics**: Real-time insights and reporting
 
-## Prerequisites
+## 🏗️ Architecture
 
-- Docker and Docker Compose
-- .NET 9.0 SDK (for local development)
-- SQL Server (included in Docker setup)
+The system follows a **Clean Architecture** pattern with the following layers:
 
-## Quick Start
+```
+┌─────────────────────────────────────┐
+│        Booking Service API          │
+│      (BookingServiceApi)            │
+└─────────────────────────────────────┘
+                    │
+┌─────────────────────────────────────┐
+│     Application Layer               │
+│ (HotelManagementApplication)        │
+└─────────────────────────────────────┘
+                    │
+┌─────────────────────────────────────┐
+│     Infrastructure Layer            │
+│ (HotelManagementInfrastructure)     │
+└─────────────────────────────────────┘
+                    │
+┌─────────────────────────────────────┐
+│        Domain Layer                 │
+│   (HootelManagementDomain)          │
+└─────────────────────────────────────┘
+```
+
+## 🚀 Features
+
+### Authentication & Authorization
+- JWT-based authentication with refresh tokens
+- Role-based access control (Admin, Manager, Receptionist, etc.)
+- Secure password hashing
+- Email verification system
+
+### Booking Management
+- Complete booking lifecycle management
+- Real-time room availability checking
+- Booking status tracking (Pending, Confirmed, Checked-in, Checked-out, Cancelled)
+- OTP verification for bookings
+- Automatic booking number generation
+
+### Room Management
+- Room types and pricing management
+- Room status tracking (Available, Occupied, Maintenance, Out of Order)
+- Room amenities and capacity management
+- Image upload and management
+- Maintenance scheduling
+
+### Guest Management
+- Guest registration and profile management
+- Booking history tracking
+- Email-based guest communication
+
+### Staff Management
+- Staff role management (Manager, Receptionist, Housekeeping, etc.)
+- Staff authentication and authorization
+- Dashboard access control
+
+### Email System
+- Automated booking confirmations
+- Check-in/check-out notifications
+- OTP delivery via email
+- Customizable email templates
+
+## 🛠️ Technology Stack
+
+- **.NET 8** - Backend framework
+- **ASP.NET Core Web API** - REST API development
+- **Entity Framework Core** - ORM for database operations
+- **SQL Server** - Database
+- **JWT** - Authentication and authorization
+- **Docker** - Containerization
+- **Swagger/OpenAPI** - API documentation
+
+## 📋 Prerequisites
+
+- .NET 8 SDK
+- SQL Server (Local or Docker)
+- Docker (optional, for containerized deployment)
+- Visual Studio 2022 or VS Code
+
+## 🚀 Getting Started
 
 ### 1. Clone the Repository
+
 ```bash
 git clone <repository-url>
 cd ApiGatewayHotelManagementSystem
 ```
 
-### 2. Environment Configuration
+### 2. Database Setup
+
+#### Option A: Using Docker
 ```bash
-# Copy the example environment file
+docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=YourStrong@Passw0rd" \
+   -p 1433:1433 --name sqlserver \
+   -d mcr.microsoft.com/mssql/server:2022-latest
+```
+
+#### Option B: Local SQL Server
+- Install SQL Server 2022
+- Create a database named `HotelManagement`
+
+### 3. Environment Configuration
+
+Copy the environment example file and configure your settings:
+
+```bash
 cp env.example .env
-
-# Edit .env file with your configuration
-nano .env
 ```
 
-### 3. Deploy with Docker
-```bash
-# Linux/Mac
-chmod +x deploy.sh
-./deploy.sh
-
-# Windows
-deploy.bat
-```
-
-### 4. Access the Application
-- **API**: http://localhost:8080
-- **Swagger Documentation**: http://localhost:8080/swagger
-- **Database**: localhost:1433
-
-## Environment Variables
-
-Create a `.env` file with the following variables:
+Update the `.env` file with your configuration:
 
 ```env
 # Database Configuration
+DB_SERVER=localhost
+DB_PORT=1433
+DB_NAME=HotelManagement
+DB_USERNAME=sa
 DB_PASSWORD=YourStrong@Passw0rd
 
 # JWT Configuration
-JWT_KEY=your-super-secret-jwt-key
+JWT_KEY=your-super-secret-jwt-key-here
 JWT_ISSUER=BookManagementSystem
 JWT_AUDIENCE=BookManagementSystemUsers
 
 # Email Configuration
 SMTP_HOST=your-smtp-host
 SMTP_PORT=587
-SMTP_USERNAME=your-smtp-username
-SMTP_PASSWORD=your-smtp-password
+SMTP_USERNAME=your-email@domain.com
+SMTP_PASSWORD=your-email-password
 SMTP_USE_SSL=false
-EMAIL_FROM=noreply@yourhotel.com
+EMAIL_FROM=noreply@hotel.com
 EMAIL_FROM_NAME=Hotel Management System
-EMAIL_ADMIN=admin@yourhotel.com
+EMAIL_ADMIN=admin@hotel.com
 
 # Hotel Information
 HOTEL_NAME=Your Hotel Name
@@ -79,94 +154,184 @@ HOTEL_ADDRESS=Your Hotel Address
 HOTEL_PHONE=+1-000-000-0000
 ```
 
-## API Endpoints
+### 4. Database Migration
 
-### Authentication
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
-- `POST /api/auth/refresh` - Refresh token
+Run the following commands to set up the database:
 
-### Bookings
-- `GET /api/booking` - Get all bookings
-- `POST /api/booking` - Create new booking
-- `GET /api/booking/{id}` - Get booking by ID
-- `PUT /api/booking/{id}` - Update booking
-- `DELETE /api/booking/{id}` - Delete booking
-
-### Rooms
-- `GET /api/room` - Get all rooms
-- `POST /api/room` - Create new room
-- `GET /api/room/{id}` - Get room by ID
-- `PUT /api/room/{id}` - Update room
-- `DELETE /api/room/{id}` - Delete room
-
-### Dashboard
-- `GET /api/dashboard` - Get complete dashboard data
-- `GET /api/dashboard/stats` - Get hotel statistics
-- `GET /api/dashboard/revenue` - Get revenue data
-- `GET /api/dashboard/room-status` - Get room status overview
-
-## Development
-
-### Local Development Setup
 ```bash
-# Restore packages
-dotnet restore
+# Navigate to the infrastructure project
+cd HotelManagementInfratructure
+
+# Add migration
+dotnet ef migrations add InitialCreate
 
 # Update database
 dotnet ef database update
-
-# Run the application
-dotnet run --project BookingServiceApi
 ```
 
-### Database Migrations
-```bash
-# Add new migration
-dotnet ef migrations add MigrationName --project HotelManagementInfratructure
+### 5. Run the Application
 
-# Update database
-dotnet ef database update --project HotelManagementInfratructure
+#### Option A: Using Docker Compose
+```bash
+docker-compose up -d
 ```
 
-## Docker Commands
+#### Option B: Manual Setup
+```bash
+# Run the Booking Service
+cd BookingServiceApi
+dotnet run
+```
+
+The application will be available at:
+- **Booking Service**: `http://localhost:5000`
+- **Swagger UI**: `http://localhost:5000/swagger`
+
+## 📚 API Documentation
+
+### Authentication Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/auth/register` | Register a new user |
+| POST | `/api/auth/login` | User login |
+| POST | `/api/auth/refresh` | Refresh access token |
+
+### Booking Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/booking` | Get all bookings |
+| GET | `/api/booking/{id}` | Get booking by ID |
+| POST | `/api/booking` | Create new booking |
+| PUT | `/api/booking/{id}` | Update booking |
+| DELETE | `/api/booking/{id}` | Delete booking |
+| PATCH | `/api/booking/{id}/status` | Update booking status |
+| PATCH | `/api/booking/{id}/check-in` | Check-in booking |
+| PATCH | `/api/booking/{id}/check-out` | Check-out booking |
+| GET | `/api/booking/check-availability` | Check room availability |
+
+### Room Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/room` | Get all rooms |
+| GET | `/api/room/{id}` | Get room by ID |
+| POST | `/api/room` | Create new room |
+| PUT | `/api/room/{id}` | Update room |
+| DELETE | `/api/room/{id}` | Delete room |
+
+### Guest Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/guest` | Get all guests |
+| GET | `/api/guest/{id}` | Get guest by ID |
+| POST | `/api/guest` | Create new guest |
+| PUT | `/api/guest/{id}` | Update guest |
+| DELETE | `/api/guest/{id}` | Delete guest |
+
+## 🔐 Authentication
+
+The system uses JWT tokens for authentication. Include the token in the Authorization header:
+
+```
+Authorization: Bearer <your-jwt-token>
+```
+
+### User Roles
+
+- **Admin**: Full system access
+- **Manager**: Hotel management operations
+- **Receptionist**: Check-in/check-out operations
+- **Housekeeping**: Room maintenance
+- **Maintenance**: Technical maintenance
+- **Security**: Security operations
+- **Chef**: Kitchen operations
+- **Waiter**: Service operations
+
+## 📊 Database Schema
+
+### Core Entities
+
+- **Booking**: Manages hotel reservations
+- **Room**: Hotel room information and status
+- **Guest**: Guest information and profiles
+- **HotelStaff**: Staff member information
+- **MaintenanceDate**: Room maintenance scheduling
+- **BookingOtp**: OTP verification for bookings
+
+### Enums
+
+- **BookingStatus**: Pending, Confirmed, Cancelled, CheckedIn, CheckedOut
+- **RoomStatus**: Available, Occupied, Maintenance, OutOfOrder
+- **StaffRoles**: Manager, Receptionist, Housekeeping, etc.
+- **MaintenanceStatus**: Scheduled, InProgress, Completed
+- **OtpStatus**: Pending, Verified, Expired
+
+## 🐳 Docker Deployment
+
+### Using Docker Compose
 
 ```bash
-# Build and start services
-docker-compose up --build -d
+# Build and start all services
+docker-compose up -d
 
 # View logs
 docker-compose logs -f
 
 # Stop services
 docker-compose down
-
-# Remove volumes (WARNING: This will delete all data)
-docker-compose down -v
 ```
 
-## Project Structure
+### Environment Variables
+
+The Docker setup uses environment variables from the `.env` file. Make sure to configure all required variables before deployment.
+
+## 🧪 Testing
+
+### API Testing
+
+Use the provided HTTP files for testing:
+
+- `ApiGatewayHotelManagementSystem.http`
+- `BookingServiceApi.http`
+
+### Manual Testing
+
+1. Register a new user
+2. Login to get JWT token
+3. Use the token to access protected endpoints
+4. Test booking creation and management
+
+## 📝 Development
+
+### Project Structure
 
 ```
-├── BookingServiceApi/          # Main API project
-├── HotelManagementApplication/ # Application layer (DTOs, Interfaces)
-├── HotelManagementInfratructure/ # Infrastructure layer (Services, Repositories)
-├── HootelManagementDomain/     # Domain layer (Entities, Enums)
-├── Dockerfile                  # Docker configuration
-├── docker-compose.yml         # Docker Compose configuration
-├── .env                       # Environment variables (not in git)
-└── env.example               # Environment variables template
+ApiGatewayHotelManagementSystem/
+├── BookingServiceApi/                   # Main booking service
+├── HotelManagementApplication/          # Application layer
+├── HotelManagementInfratructure/        # Infrastructure layer
+├── HootelManagementDomain/              # Domain layer
+├── docker-compose.yml                   # Docker configuration
+├── Dockerfile                           # Docker configuration
+├── deploy.bat                           # Deployment script
+├── deploy.sh                            # Deployment script
+├── env.example                          # Environment template
+└── README.md                            # Project documentation
 ```
 
-## Security
+### Adding New Features
 
-- JWT-based authentication with refresh tokens
-- Environment variables for sensitive configuration
-- Input validation and sanitization
-- CORS configuration
-- Rate limiting (if using reverse proxy)
+1. Define entities in the Domain layer
+2. Create DTOs in the Application layer
+3. Implement services in the Application layer
+4. Add repositories in the Infrastructure layer
+5. Create controllers in the API layer
+6. Update database with migrations
 
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -174,6 +339,24 @@ docker-compose down -v
 4. Add tests if applicable
 5. Submit a pull request
 
-## License
+## 📄 License
 
 This project is licensed under the MIT License.
+
+## 🆘 Support
+
+For support and questions:
+- Create an issue in the repository
+- Contact the development team
+- Check the API documentation
+
+## 🔄 Version History
+
+- **v1.0.0** - Initial release with basic booking management
+- **v1.1.0** - Added email notifications and OTP verification
+- **v1.2.0** - Enhanced authentication with refresh tokens
+- **v1.3.0** - Added API Gateway and improved architecture
+
+---
+
+**Built with ❤️ for modern hotel management**
